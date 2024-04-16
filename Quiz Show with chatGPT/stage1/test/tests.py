@@ -7,10 +7,8 @@ class TestQuizShow(StageTest):
         program = TestedProgram()
         program.start()
 
-#        program.execute("egg")
-
-#        exit_output = program.execute("exit")
-#        if "egg" not in exit_output:
-#            return CheckResult.wrong("No Egg!")
+        exit_output = program.execute("egg").lower()
+        if "egg" not in exit_output:
+            return CheckResult.wrong("No Egg!")
 
         return CheckResult.correct()
