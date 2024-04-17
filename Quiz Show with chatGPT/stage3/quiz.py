@@ -75,4 +75,5 @@ def menu():
 
 #  Stage 3 - q1: python os library
 # tak genrować, żeby były i true i false - najlepiej randomly
+# podzielić przez DivisionMark na 2, każde inny przez TaskMark i QuestionMark na 4, i Question przez AnswerMark na 2
 menu()
