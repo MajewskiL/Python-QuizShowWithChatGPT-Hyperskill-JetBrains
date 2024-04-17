@@ -76,6 +76,8 @@ def menu():
             for i, fact in enumerate(facts_list):
                 print(f"{i + 1}) {fact}")
             print('')
+        elif ans == "q":
+            pass
         else:
             print("Unknown command.\n")
 
