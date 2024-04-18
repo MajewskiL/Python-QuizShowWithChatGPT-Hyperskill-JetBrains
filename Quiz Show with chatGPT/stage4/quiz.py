@@ -65,8 +65,10 @@ def quiz(questions_list):
                 print("Correct!")
                 questions_list.remove(questions_list.index(question))
             else:
-                new_question = (f"Generate new question with answer not {question[2]} for fact: '{question[0]}' "
-                                f"different than '{question[1]}'")
+                new_question = (f"Generate new question for fact: '{question[0]}' "
+                                f"which has hidden answer {not question[2]} "
+                                f"and is different than this question '{question[1]}'")
+                print(new_question)
                 new_question = ask_chat(new_question)
                 questions_list[questions_list.index(question)] = [question[0], new_question, not question[2]]
     return
