@@ -28,9 +28,13 @@ def unpack_answer(facts, prefix):
     return facts_list
 
 
-def unpack_questions(questions):
+def unpack_questions(questions, facts):
     questions_list = [data.strip() for data in questions.split(QUESTION_MARK)[1:]]
     questions_list = [data.split(ANSWER_MARK) for data in questions_list]
+    questions_list = [[facts[i], questions_list[i][0], True]
+                      if questions_list[i][1].strip().lower() == "true"
+                      else [facts[i], questions_list[i][0], False]
+                      for i in range(len(questions_list))]
     return questions_list
 
 
@@ -42,7 +46,7 @@ def generate_facts(topic):
 
 def generate_questions(facts):
     chat_question_2 = (
-        f"Print one question for each facts from list: {','.join(facts)}, "
+        f"Print one question for each facts from list: {','.join(facts)} "
         f"using different words as are in fact,"
         f"where two of them should have answer 'true' and two of them should have answer 'false',"
         f"printed line by line, "
@@ -51,9 +55,28 @@ def generate_questions(facts):
     return ask_chat(chat_question_2)
 
 
+def quiz(questions_list):
+    while len(questions_list) != 0:
+        for question in questions_list:
+            print(f"{question[1]} false/true: ")
+            ans = input()
+            ans = True if ans.lower().strip() == "true" else False
+            if ans == question[2]:
+                print("Correct!")
+                questions_list.remove(questions_list.index(question))
+            else:
+                new_question = (f"Generate new question with answer not {question[2]} for fact: '{question[0]}' "
+                                f"different than '{question[1]}'")
+                new_question = ask_chat(new_question)
+                questions_list[questions_list.index(question)] = [question[0], new_question, not question[2]]
+    return
+
+
 def menu():
     facts = str()
     facts_list = list()
+    questions = str()
+    questions_list = list()
     while True:
         print("Menu:")
         print("(F)acts generator")
@@ -69,15 +92,15 @@ def menu():
             print(facts)
             print(DIVISION_MARK)
             facts_list = unpack_answer(facts, TOPIC_MARK)
-            question_list = generate_questions(facts_list)
-            print(question_list)
+            questions = generate_questions(facts_list)
+            print(questions)
             print()
         elif ans == "l":
             for i, fact in enumerate(facts_list):
                 print(f"{i + 1}) {fact}")
             print('')
         elif ans == "q":
-            pass
+            quiz(unpack_questions(questions, facts_list))
         else:
             print("Unknown command.\n")
 
