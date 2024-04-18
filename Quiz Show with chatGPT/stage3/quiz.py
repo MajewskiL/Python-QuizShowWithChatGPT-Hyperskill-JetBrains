@@ -36,7 +36,7 @@ def generate_facts(topic):
 
 def generate_questions(facts):
     chat_question_2 = (
-        f"Print one question for each facts from list: {','.join(facts)}, "
+        f"Print one question for each facts from list: {','.join(facts)} "
         f"using different words as are in fact,"
         f"where two of them should have answer 'true' and two of them should have answer 'false',"
         f"printed line by line, "
